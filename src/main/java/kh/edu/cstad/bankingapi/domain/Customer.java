@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Setter
 @Getter
 @NoArgsConstructor
@@ -14,7 +16,7 @@ public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column(nullable = false)
     private String fullName;
@@ -27,6 +29,13 @@ public class Customer {
 
     @Column(unique = true, nullable = false)
     private String phoneNumber;
+
+//    Has-A
+    @OneToMany(mappedBy = "customer")
+    private List<Account> accounts;
+
+    @OneToOne
+    private KYC kyc;
 }
 
 
