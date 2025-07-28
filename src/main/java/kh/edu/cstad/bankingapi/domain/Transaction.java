@@ -30,12 +30,12 @@ public class Transaction {
     @Column(nullable = false)
     private Boolean isDeleted;
 
-    @ManyToOne(optional = false)
+    @ManyToOne
     private TransactionType transactionType;
 
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Account sender;
 
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Account receiver;
 }

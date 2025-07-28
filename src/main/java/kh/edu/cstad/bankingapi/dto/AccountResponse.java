@@ -1,2 +1,5 @@
-package kh.edu.cstad.bankingapi.dto;public record AccountResponse() {
+package kh.edu.cstad.bankingapi.dto;
+
+public record AccountResponse() {
+
 }

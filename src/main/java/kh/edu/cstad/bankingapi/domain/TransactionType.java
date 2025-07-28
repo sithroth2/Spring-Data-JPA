@@ -25,4 +25,5 @@ public class TransactionType {
 
     @OneToMany(mappedBy = "transactionType")
     private List<Transaction> transactions;
+
 }

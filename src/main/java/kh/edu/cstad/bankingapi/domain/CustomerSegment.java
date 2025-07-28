@@ -28,4 +28,5 @@ public class CustomerSegment {
 
     @OneToMany(mappedBy = "customerSegment", fetch = FetchType.EAGER)
     private List<Customer> customers;
+
 }

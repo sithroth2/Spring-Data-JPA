@@ -1,6 +1,7 @@
 package kh.edu.cstad.bankingapi.domain;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -29,13 +30,19 @@ public class Customer {
 
     @Column(unique = true, nullable = false)
     private String phoneNumber;
+    @Column(nullable = false)
+    private Boolean isDeleted;
 
-//    Has-A
+    // has a
+    @ManyToOne
+    @JoinColumn(name="cus_segment_id")
+    private CustomerSegment customerSegment;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private KYC kyc;
+
     @OneToMany(mappedBy = "customer")
     private List<Account> accounts;
-
-    @OneToOne
-    private KYC kyc;
 }
 
 
