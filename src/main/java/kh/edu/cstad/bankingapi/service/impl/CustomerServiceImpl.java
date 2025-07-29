@@ -12,12 +12,11 @@ import kh.edu.cstad.bankingapi.repository.CustomerSegmentRepository;
 import kh.edu.cstad.bankingapi.repository.KycRepository;
 import kh.edu.cstad.bankingapi.service.CustomerService;
 import lombok.RequiredArgsConstructor;
-import org.mapstruct.MappingTarget;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.lang.annotation.Target;
 import java.util.List;
 
 @Service
@@ -29,13 +28,38 @@ public class CustomerServiceImpl implements CustomerService {
     private final CustomerSegmentRepository customerSegmentRepository;
     private final KycRepository kycRepository;
 
+    @Transactional
+    @Override
+    public void disableByPhoneNumber(String phoneNumber) {
+        if(!customerRepository.existsByPhoneNumber(phoneNumber)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Phone number not found");
+        }
+        customerRepository.disableByPhoneNumber(phoneNumber);
+    }
+
     @Override
     public List<CustomerResponse> findAllCustomer() {
+        return List.of();
+    }
 
-        List<Customer> customers = customerRepository.findAll();
+    @Override
+    public List<CustomerResponse> findAll() {
+
+        List<Customer> customers = customerRepository.findAllByIsDeletedFalse();
 
         // logic find all;
-        return customerMapper.toCustomerResponses(customers);
+        return customers
+                .stream()
+                .map(customerMapper::toCustomerResponse)
+                .toList();
+    }
+    public CustomerResponse findByPhoneNumber(String phoneNumber) {
+        return customerRepository
+                .findByPhoneNumberAndIsDeleted(phoneNumber)
+                .map(customerMapper::toCustomerResponse)
+                .orElseThrow(
+                        () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Phone number not found")
+                );
     }
 
     @Override
@@ -73,6 +97,7 @@ kyc.setCustomer(customer);
         customerRepository.save(customer);
 
         return customerMapper.toCustomerResponse(customer);
+
     }
 
     @Override

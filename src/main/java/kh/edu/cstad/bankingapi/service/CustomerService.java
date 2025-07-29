@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 @Service
 public interface CustomerService {
+    void disableByPhoneNumber(String phoneNumber);
 
     List<CustomerResponse> findAllCustomer();
 
@@ -16,6 +17,8 @@ public interface CustomerService {
     * Create new customer
     *
     * */
+
+    List<CustomerResponse> findAll();
 
     CustomerResponse createCustomer(CreateCustomerRequest createCustomerRequest);
     CustomerResponse updateCustomerByEmail(String email, UpdateCustomerRequest updateCustomerRequest);

@@ -19,6 +19,8 @@ import java.util.List;
 public class CustomerController {
 
     private final CustomerService customerService;
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PutMapping("/{phoneNumber}")
 
     @GetMapping()
     private List<CustomerResponse> findAllCustomers() {
